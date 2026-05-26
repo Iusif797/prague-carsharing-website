@@ -1,4 +1,9 @@
-import { Zap } from "lucide-react";
+import { Github, Linkedin, Zap } from "lucide-react";
+
+const AUTHOR_NAME = "Iusif Mamedov";
+const AUTHOR_ROLE = "Full Stack Developer";
+const AUTHOR_GITHUB = "https://github.com/Iusif797";
+const AUTHOR_LINKEDIN = "https://www.linkedin.com/in/iusifmamedov/";
 
 export function Footer() {
   return (
@@ -58,9 +63,45 @@ export function Footer() {
           </ul>
         </div>
       </div>
-      <div className="max-w-7xl mx-auto mt-8 sm:mt-12 pt-5 sm:pt-6 border-t border-border text-[11px] sm:text-xs text-foreground/50 flex flex-col gap-1.5 sm:flex-row sm:justify-between sm:flex-wrap">
-        <span>© 2026 Praha Drive s.r.o. · Praha, Česko</span>
-        <span>Made with care on Vltava's banks.</span>
+
+      <div className="max-w-7xl mx-auto mt-8 sm:mt-12 pt-5 sm:pt-6 border-t border-border flex flex-col gap-4 sm:flex-row sm:items-center sm:justify-between">
+        <div className="flex flex-col gap-1.5 sm:gap-1">
+          <span className="text-[10px] sm:text-[11px] uppercase tracking-[0.32em] text-foreground/40">
+            Designed &amp; developed by
+          </span>
+          <a
+            href={AUTHOR_GITHUB}
+            target="_blank"
+            rel="noopener noreferrer"
+            className="font-display text-base sm:text-lg leading-tight text-foreground transition-colors hover:text-primary"
+          >
+            {AUTHOR_NAME}
+            <span className="ml-2 align-middle text-[11px] sm:text-xs uppercase tracking-[0.18em] text-foreground/55">
+              {AUTHOR_ROLE}
+            </span>
+          </a>
+        </div>
+
+        <div className="flex items-center gap-2 sm:gap-2.5">
+          <a
+            href={AUTHOR_GITHUB}
+            target="_blank"
+            rel="noopener noreferrer"
+            aria-label="GitHub — Iusif Mamedov"
+            className="inline-flex h-10 w-10 items-center justify-center rounded-full border border-border bg-white/[0.03] text-foreground/75 transition hover:border-primary/50 hover:bg-white/[0.07] hover:text-primary"
+          >
+            <Github className="h-4 w-4" />
+          </a>
+          <a
+            href={AUTHOR_LINKEDIN}
+            target="_blank"
+            rel="noopener noreferrer"
+            aria-label="LinkedIn — Iusif Mamedov"
+            className="inline-flex h-10 w-10 items-center justify-center rounded-full border border-border bg-white/[0.03] text-foreground/75 transition hover:border-primary/50 hover:bg-white/[0.07] hover:text-primary"
+          >
+            <Linkedin className="h-4 w-4" />
+          </a>
+        </div>
       </div>
     </footer>
   );
