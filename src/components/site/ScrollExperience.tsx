@@ -143,10 +143,35 @@ export function ScrollExperience() {
   });
 
   useEffect(() => {
+    const video = videoRef.current;
+    if (!video) return;
     const reduced = window.matchMedia("(prefers-reduced-motion: reduce)").matches;
+
+    const primeForScrubbing = () => {
+      const playPromise = video.play();
+      if (playPromise && typeof playPromise.then === "function") {
+        playPromise
+          .then(() => {
+            video.pause();
+            video.currentTime = 0;
+          })
+          .catch(() => {
+            video.currentTime = 0;
+          });
+      }
+    };
+
+    if (video.readyState >= 1) {
+      primeForScrubbing();
+    } else {
+      video.addEventListener("loadedmetadata", primeForScrubbing, { once: true });
+    }
+
+    const resumeOnTouch = () => primeForScrubbing();
+    document.addEventListener("touchstart", resumeOnTouch, { once: true, passive: true });
+
     const tick = () => {
-      const video = videoRef.current;
-      if (video && video.duration) {
+      if (video.duration) {
         const diff = targetTime.current - video.currentTime;
         if (reduced) {
           video.currentTime = targetTime.current;
@@ -163,6 +188,8 @@ export function ScrollExperience() {
     rafId.current = requestAnimationFrame(tick);
     return () => {
       if (rafId.current) cancelAnimationFrame(rafId.current);
+      document.removeEventListener("touchstart", resumeOnTouch);
+      video.removeEventListener("loadedmetadata", primeForScrubbing);
     };
   }, []);
 
@@ -182,9 +209,13 @@ export function ScrollExperience() {
         <motion.video
           ref={videoRef}
           src="/videos/hero.mp4"
+          poster="/frames/f_0.3.jpg"
           muted
+          autoPlay
           playsInline
           preload="auto"
+          disablePictureInPicture
+          disableRemotePlayback
           // eslint-disable-next-line @typescript-eslint/no-explicit-any
           {...({ "webkit-playsinline": "true", "x5-playsinline": "true" } as any)}
           style={isMobile ? { objectPosition: mobileObjectPosition } : undefined}
@@ -426,7 +457,7 @@ function HowScene() {
         </div>
         <div className="hidden md:flex justify-center">
           <PhoneMock
-            src="/app/how-screen.jpg?v=3"
+            src="/app/how-screen.jpg?v=6"
             alt="Nearby cars on the Praha Drive map"
             objectPosition="center 36%"
             card={
@@ -775,7 +806,7 @@ function CtaScene() {
         </div>
         <div className="hidden md:flex justify-end">
           <PhoneMock
-            src="/app/cta-screen.jpg?v=3"
+            src="/app/cta-screen.jpg?v=6"
             alt="Reserved BMW i4 in the Praha Drive app"
             objectPosition="center 40%"
             card={
