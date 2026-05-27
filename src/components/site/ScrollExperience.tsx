@@ -331,7 +331,7 @@ function Scene({
 
 function SceneProgress({ progress }: { progress: MotionValue<number> }) {
   return (
-    <div className="absolute right-2.5 sm:right-5 md:right-8 top-1/2 -translate-y-1/2 flex flex-col gap-2 sm:gap-2.5 z-20">
+    <div className="absolute right-5 md:right-8 top-1/2 -translate-y-1/2 hidden sm:flex flex-col gap-2 sm:gap-2.5 z-20">
       {Array.from({ length: SCENES }).map((_, i) => (
         <Dot key={i} index={i} progress={progress} />
       ))}
@@ -355,7 +355,7 @@ function Dot({ index, progress }: { index: number; progress: MotionValue<number>
 
 function SceneShell({ children }: { children: ReactNode }) {
   return (
-    <div className="mx-auto flex h-full w-full max-w-7xl items-center pl-5 pr-8 pt-[max(4.5rem,env(safe-area-inset-top))] pb-[max(3rem,env(safe-area-inset-bottom))] sm:px-6 sm:pr-10 md:px-10 md:py-0">
+    <div className="mx-auto flex h-full w-full max-w-7xl items-center px-5 pt-[max(4.5rem,env(safe-area-inset-top))] pb-[max(3rem,env(safe-area-inset-bottom))] sm:px-6 md:px-10 md:py-0">
       {children}
     </div>
   );

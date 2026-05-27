@@ -1,6 +1,6 @@
 import { useEffect, useState } from "react";
 import { AnimatePresence, motion } from "motion/react";
-import { Menu, Smartphone, X, Zap } from "lucide-react";
+import { Menu, Smartphone, X } from "lucide-react";
 
 type NavLink = {
   readonly href: string;
@@ -20,29 +20,27 @@ const appButtonClass =
 
 function Logo() {
   return (
-    <a href="#" className="group flex min-w-0 items-center gap-2.5 text-foreground">
-      <span className="relative inline-flex h-9 w-9 shrink-0 items-center justify-center overflow-hidden rounded-[12px] border border-white/15 bg-white/[0.04] backdrop-blur-md shadow-[0_8px_24px_-12px_color-mix(in_oklab,var(--color-primary)_45%,transparent)] transition-[transform,box-shadow] duration-300 group-hover:-translate-y-0.5 group-hover:shadow-[0_14px_32px_-12px_color-mix(in_oklab,var(--color-primary)_65%,transparent)]">
+    <a
+      href="#"
+      aria-label="Praha Drive"
+      className="group inline-flex shrink-0 items-center gap-2.5 text-foreground"
+    >
+      <span className="relative inline-flex h-9 w-9 shrink-0 items-center justify-center overflow-hidden rounded-[11px] bg-gradient-to-br from-primary via-primary to-[oklch(0.74_0.18_72)] shadow-[0_10px_28px_-12px_color-mix(in_oklab,var(--color-primary)_70%,transparent)] transition-transform duration-300 group-hover:-translate-y-0.5">
+        <svg viewBox="0 0 24 24" aria-hidden="true" className="h-[18px] w-[18px]">
+          <path
+            d="M14.2 2.3 5.6 13.4a.6.6 0 0 0 .48.97h4.4l-1.4 6.96a.5.5 0 0 0 .9.38l8.42-10.93a.6.6 0 0 0-.48-.97h-4.32l1.4-6.92a.5.5 0 0 0-.9-.39Z"
+            fill="oklch(0.18 0.02 80)"
+          />
+        </svg>
         <span
           aria-hidden="true"
-          className="pointer-events-none absolute inset-0 bg-[radial-gradient(circle_at_30%_20%,color-mix(in_oklab,var(--color-primary)_45%,transparent),transparent_70%)]"
-        />
-        <Zap
-          className="relative h-4 w-4 text-primary drop-shadow-[0_0_8px_color-mix(in_oklab,var(--color-primary)_55%,transparent)]"
-          strokeWidth={2.5}
-          fill="currentColor"
+          className="pointer-events-none absolute inset-0 rounded-[11px] ring-1 ring-inset ring-white/25"
         />
       </span>
-      <span className="flex min-w-0 items-baseline gap-1.5">
-        <span className="truncate font-display text-[1.35rem] italic leading-none tracking-tight sm:text-[1.55rem]">
-          Praha
-        </span>
-        <span
-          aria-hidden="true"
-          className="inline-block h-1 w-1 shrink-0 rounded-full bg-primary opacity-85"
-        />
-        <span className="truncate font-display text-[1.35rem] leading-none tracking-tight text-foreground/85 sm:text-[1.55rem]">
-          Drive
-        </span>
+      <span className="whitespace-nowrap font-display text-[1.05rem] leading-none tracking-tight sm:text-[1.2rem]">
+        <span className="italic text-foreground">Praha</span>
+        <span className="text-primary">.</span>
+        <span className="text-foreground">Drive</span>
       </span>
     </a>
   );
@@ -96,14 +94,6 @@ export function Header() {
           </nav>
 
           <div className="flex shrink-0 items-center gap-2 sm:gap-3">
-            <button
-              type="button"
-              className={`${appButtonClass} h-9 min-w-[2.75rem] px-3 text-xs sm:hidden`}
-              aria-label="Get the app"
-            >
-              <Smartphone className="h-3.5 w-3.5" />
-              App
-            </button>
             <button
               type="button"
               className={`${appButtonClass} hidden h-10 min-w-[8.75rem] px-5 text-sm sm:inline-flex`}
