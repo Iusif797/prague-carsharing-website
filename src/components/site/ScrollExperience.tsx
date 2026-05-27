@@ -8,7 +8,7 @@ import {
   AnimatePresence,
   type MotionValue,
 } from "motion/react";
-import { ArrowDown, Star, Plus, Apple, Smartphone } from "lucide-react";
+import { ArrowDown, Star, Plus } from "lucide-react";
 import { useMemo, useState, useSyncExternalStore } from "react";
 import { FLEET_CARS } from "@/data/fleet";
 import { FleetCard } from "@/components/site/FleetCard";
@@ -317,10 +317,11 @@ function Scene({
     0,
     hold ? 0 : -30,
   ]);
+  const pointerEvents = useTransform(opacity, (o) => (o > 0.6 ? "auto" : "none"));
 
   return (
     <motion.div
-      style={{ opacity, y }}
+      style={{ opacity, y, pointerEvents }}
       className="absolute inset-0 flex items-center overflow-hidden"
     >
       {children}
@@ -417,7 +418,7 @@ function FleetScene() {
           Three machines. <em className="italic text-foreground/70">One promise.</em>
         </h2>
         <div className="-mx-5 px-5 sm:-mx-6 sm:px-6 md:mx-0 md:px-0">
-          <div className="flex gap-3.5 overflow-x-auto pb-1 [-ms-overflow-style:none] [scrollbar-width:none] md:grid md:grid-cols-3 md:gap-5 md:overflow-visible md:pb-0 [&::-webkit-scrollbar]:hidden snap-x snap-mandatory md:snap-none">
+          <div className="flex gap-3.5 overflow-x-auto pb-1 touch-pan-x [-ms-overflow-style:none] [scrollbar-width:none] md:grid md:grid-cols-3 md:gap-5 md:overflow-visible md:pb-0 [&::-webkit-scrollbar]:hidden snap-x snap-mandatory md:snap-none">
             {FLEET_CARS.map((car, index) => (
               <FleetCard key={car.name} car={car} priority={index === 0} compact />
             ))}
@@ -563,7 +564,7 @@ function ZonesScene() {
           </div>
         </div>
         <div className="flex flex-col gap-3 md:gap-4">
-          <div className="-mx-5 flex gap-2 overflow-x-auto px-5 pb-1 [-ms-overflow-style:none] [scrollbar-width:none] [&::-webkit-scrollbar]:hidden snap-x snap-mandatory sm:mx-0 sm:px-0 md:grid md:grid-cols-2 md:gap-2 md:overflow-visible md:snap-none">
+          <div className="-mx-5 flex gap-2 overflow-x-auto px-5 pb-1 touch-pan-x [-ms-overflow-style:none] [scrollbar-width:none] [&::-webkit-scrollbar]:hidden snap-x snap-mandatory sm:mx-0 sm:px-0 md:grid md:grid-cols-2 md:gap-2 md:overflow-visible md:snap-none">
             {PINS.map((p) => (
               <button
                 key={p.id}
@@ -701,7 +702,7 @@ function TestiScene() {
           Across 12,000 reviews.
         </h2>
         <div className="-mx-5 px-5 sm:-mx-6 sm:px-6 md:mx-0 md:px-0">
-          <div className="flex gap-3.5 overflow-x-auto pb-1 [-ms-overflow-style:none] [scrollbar-width:none] [&::-webkit-scrollbar]:hidden snap-x snap-mandatory md:grid md:grid-cols-3 md:gap-4 md:overflow-visible md:pb-0 md:snap-none">
+          <div className="flex gap-3.5 overflow-x-auto pb-1 touch-pan-x [-ms-overflow-style:none] [scrollbar-width:none] [&::-webkit-scrollbar]:hidden snap-x snap-mandatory md:grid md:grid-cols-3 md:gap-4 md:overflow-visible md:pb-0 md:snap-none">
             {TESTI.map((t) => (
               <div
                 key={t.name}
@@ -788,18 +789,18 @@ function CtaScene() {
             Download, verify your license in 90 seconds, and we'll drop 200 Kč onto your account.
           </p>
           <div className="flex flex-wrap gap-2.5 sm:gap-3">
-            <button className="h-11 sm:h-12 px-4 sm:px-5 rounded-2xl bg-foreground text-background flex items-center gap-2 sm:gap-2.5 hover:opacity-90 transition shadow-elegant">
-              <Apple className="w-4 h-4 sm:w-5 sm:h-5" />
+            <button className="group inline-flex h-12 items-center gap-2.5 rounded-2xl bg-foreground px-5 text-background shadow-elegant transition hover:opacity-90 sm:h-[52px]">
+              <AppleLogo className="h-6 w-6 shrink-0 sm:h-7 sm:w-7" />
               <div className="text-left leading-tight">
-                <div className="text-[9px] uppercase tracking-wider opacity-70">Download on</div>
-                <div className="font-medium text-[13px] sm:text-sm">App Store</div>
+                <div className="text-[10px] tracking-wide opacity-70">Download on the</div>
+                <div className="text-[15px] font-semibold sm:text-[16px]">App Store</div>
               </div>
             </button>
-            <button className="flex h-11 sm:h-12 items-center gap-2 sm:gap-2.5 rounded-2xl border border-white/10 bg-white/5 px-4 sm:px-5 transition hover:bg-white/10 outline-none focus-visible:ring-2 focus-visible:ring-primary/50">
-              <Smartphone className="w-4 h-4 sm:w-5 sm:h-5 text-primary" />
+            <button className="group inline-flex h-12 items-center gap-2.5 rounded-2xl border border-white/15 bg-white/[0.06] px-5 text-foreground backdrop-blur-md transition hover:bg-white/10 sm:h-[52px]">
+              <GooglePlayLogo className="h-6 w-6 shrink-0 sm:h-7 sm:w-7" />
               <div className="text-left leading-tight">
-                <div className="text-[9px] uppercase tracking-wider opacity-70">Get it on</div>
-                <div className="font-medium text-[13px] sm:text-sm">Google Play</div>
+                <div className="text-[10px] tracking-wide text-foreground/70">Get it on</div>
+                <div className="text-[15px] font-semibold sm:text-[16px]">Google Play</div>
               </div>
             </button>
           </div>
@@ -844,6 +845,37 @@ function ClosingScene() {
         </p>
       </div>
     </SceneShell>
+  );
+}
+
+function AppleLogo({ className }: { className?: string }) {
+  return (
+    <svg viewBox="0 0 384 512" className={className} fill="currentColor" aria-hidden>
+      <path d="M318.7 268.7c-.2-36.7 16.4-64.4 50-84.8-18.8-26.9-47.2-41.7-84.7-44.6-35.5-2.8-74.3 20.7-88.5 20.7-15 0-49.4-19.7-76.4-19.7C63.3 141.2 4 184.8 4 273.5q0 39.3 14.4 81.2c12.8 36.7 59 126.7 107.2 125.2 25.2-.6 43-17.9 75.8-17.9 31.8 0 48.3 17.9 76.4 17.9 48.6-.7 90.4-82.5 102.6-119.3-65.2-30.7-61.7-90-61.7-91.9zM260.6 110c28-33.2 25.5-63.4 24.7-74.3-24.8 1.4-53.5 16.9-69.8 35.9-18 20.4-28.6 45.6-26.3 73.8 26.8 2.1 51.2-11.7 71.4-35.4z" />
+    </svg>
+  );
+}
+
+function GooglePlayLogo({ className }: { className?: string }) {
+  return (
+    <svg viewBox="0 0 512 512" className={className} aria-hidden>
+      <path
+        fill="#00C1FF"
+        d="M48.7 32.6C40.6 38 36 47.1 36 57.7v396.5c0 10.7 4.6 19.7 12.7 25.1l213.5-223.6L48.7 32.6z"
+      />
+      <path
+        fill="#FFC400"
+        d="m331.4 326.4-72.2-72.6L48.7 479.4c8 5.4 18.7 5.7 30.7-1.1l252-143.9z"
+      />
+      <path
+        fill="#FF3A44"
+        d="M433.6 274.4c14-7.7 21.4-19 21.4-30.7s-7.4-23-21.4-30.7L331.4 155.5l-72.2 100.3 72.2 70.6 102.2-52z"
+      />
+      <path
+        fill="#00D363"
+        d="M79.4 33.7c-12-6.7-22.7-6.4-30.7-1.1l210.5 221.2 72.2-100.3-252-119.8z"
+      />
+    </svg>
   );
 }
 
