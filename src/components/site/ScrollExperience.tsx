@@ -483,15 +483,15 @@ function ZonesScene() {
   const [active, setActive] = useState(PINS[0]);
   return (
     <SceneShell>
-      <div className="grid md:grid-cols-[1fr_0.9fr] gap-5 md:gap-8 items-center w-full">
+      <div className="grid md:grid-cols-[1fr_0.9fr] gap-3 sm:gap-5 md:gap-8 items-center w-full">
         <div>
           <Eyebrow text="Zones" />
-          <h2 className="font-display text-[clamp(1.85rem,4.5vw,4rem)] leading-[1] mb-4 md:mb-6">
+          <h2 className="font-display text-[clamp(1.5rem,4.5vw,4rem)] leading-[1] mb-3 sm:mb-4 md:mb-6">
             All of Prague.
             <br />
             <em className="italic text-foreground/70">Free-floating.</em>
           </h2>
-          <div className="relative mx-auto aspect-[4/3] w-full max-w-md overflow-hidden rounded-2xl glass md:aspect-square md:mx-0">
+          <div className="relative mx-auto aspect-[5/4] w-full max-w-md overflow-hidden rounded-2xl glass max-h-[42svh] sm:max-h-none sm:aspect-[4/3] md:aspect-square md:mx-0">
             <svg
               viewBox="0 0 100 100"
               preserveAspectRatio="xMidYMid slice"
