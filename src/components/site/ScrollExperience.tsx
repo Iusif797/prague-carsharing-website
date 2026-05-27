@@ -483,19 +483,20 @@ function ZonesScene() {
   const [active, setActive] = useState(PINS[0]);
   return (
     <SceneShell>
-      <div className="grid md:grid-cols-[1fr_0.9fr] gap-3 sm:gap-5 md:gap-8 items-center w-full">
-        <div>
+      <div className="grid w-full min-w-0 items-center gap-3 overflow-x-hidden sm:gap-5 md:grid-cols-[1fr_0.9fr] md:gap-8">
+        <div className="min-w-0 w-full">
           <Eyebrow text="Zones" />
           <h2 className="font-display text-[clamp(1.5rem,4.5vw,4rem)] leading-[1] mb-3 sm:mb-4 md:mb-6">
             All of Prague.
             <br />
             <em className="italic text-foreground/70">Free-floating.</em>
           </h2>
-          <div className="relative mx-auto aspect-[5/4] w-full max-w-md overflow-hidden rounded-2xl glass max-h-[42svh] sm:max-h-none sm:aspect-[4/3] md:aspect-square md:mx-0">
+          <div className="mx-auto w-full max-w-[16.5rem] sm:max-w-md md:max-w-none">
+            <div className="relative aspect-square w-full overflow-hidden rounded-2xl glass sm:aspect-[4/3] md:aspect-square">
             <svg
               viewBox="0 0 100 100"
-              preserveAspectRatio="xMidYMid slice"
-              className="absolute inset-0 h-full w-full"
+              preserveAspectRatio="xMidYMid meet"
+              className="absolute inset-0 block h-full w-full"
             >
               <defs>
                 <radialGradient id="rg" cx="50%" cy="50%" r="50%">
@@ -561,15 +562,16 @@ function ZonesScene() {
                 {active.cars} cars
               </div>
             </div>
+            </div>
           </div>
         </div>
-        <div className="flex flex-col gap-3 md:gap-4">
-          <div className="-mx-5 flex gap-2 overflow-x-auto px-5 pb-1 touch-pan-x [-ms-overflow-style:none] [scrollbar-width:none] [&::-webkit-scrollbar]:hidden snap-x snap-mandatory sm:mx-0 sm:px-0 md:grid md:grid-cols-2 md:gap-2 md:overflow-visible md:snap-none">
+        <div className="mx-auto flex w-full min-w-0 max-w-[16.5rem] flex-col gap-3 sm:max-w-md md:mx-0 md:max-w-none md:gap-4">
+          <div className="grid w-full min-w-0 grid-cols-2 gap-2 md:grid-cols-2 md:gap-2">
             {PINS.map((p) => (
               <button
                 key={p.id}
                 onClick={() => setActive(p)}
-                className={`shrink-0 snap-start basis-[42%] sm:basis-[30%] text-left p-2.5 md:p-3 rounded-xl border transition md:basis-auto md:shrink ${
+                className={`min-w-0 w-full text-left p-2.5 md:p-3 rounded-xl border transition ${
                   active.id === p.id
                     ? "bg-primary text-primary-foreground border-primary shadow-[0_8px_24px_-12px_var(--color-primary)]"
                     : "glass hover:bg-white/10 border-transparent"
