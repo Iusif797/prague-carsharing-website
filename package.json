@@ -11,7 +11,8 @@
     "deploy": "vite build && wrangler deploy",
     "cf-typegen": "wrangler types",
     "lint": "eslint .",
-    "format": "prettier --write ."
+    "format": "prettier --write .",
+    "gen:image": "node scripts/generate-image.mjs"
   },
   "dependencies": {
     "@cloudflare/vite-plugin": "^1.25.5",

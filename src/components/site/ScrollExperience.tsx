@@ -13,6 +13,7 @@ import { useMemo, useState, useSyncExternalStore } from "react";
 import { FLEET_CARS } from "@/data/fleet";
 import { FleetCard } from "@/components/site/FleetCard";
 import { PhoneMock } from "@/components/site/PhoneMock";
+import { SCROLL_SCENE_COUNT } from "@/lib/scrollSections";
 
 const HOW = [
   {
@@ -102,7 +103,7 @@ const FAQ = [
 /* ---------- main ---------- */
 
 // 10 scenes — adjust container height accordingly
-const SCENES = 10;
+const SCENES = SCROLL_SCENE_COUNT;
 
 const clampScrollProgress = (value: number) => Math.min(1, Math.max(0, value));
 
@@ -204,7 +205,7 @@ export function ScrollExperience() {
   const mobileObjectPosition = useMotionTemplate`${mobilePanX}% center`;
 
   return (
-    <section ref={containerRef} className="relative" style={{ height: `${SCENES * 100}vh` }}>
+    <section ref={containerRef} data-scroll-experience className="relative" style={{ height: `${SCENES * 100}vh` }}>
       <div className="sticky top-0 h-svh w-full overflow-hidden bg-background">
         <motion.video
           ref={videoRef}
@@ -412,7 +413,7 @@ function PillarScene({ eyebrow, title, sub }: { eyebrow: string; title: ReactNod
 function FleetScene() {
   return (
     <SceneShell>
-      <div id="fleet" className="w-full scroll-mt-24">
+      <div id="fleet" className="w-full">
         <Eyebrow text="Fleet" />
         <h2 className="font-display text-[clamp(1.75rem,4.5vw,3.75rem)] leading-[1.02] mb-5 sm:mb-6 md:mb-10 max-w-2xl">
           Three machines. <em className="italic text-foreground/70">One promise.</em>
@@ -432,47 +433,50 @@ function FleetScene() {
 function HowScene() {
   return (
     <SceneShell>
-      <div className="grid md:grid-cols-2 gap-6 md:gap-10 items-center w-full">
-        <div>
+      <div
+        id="how"
+        className="grid w-full min-w-0 grid-cols-[minmax(112px,29vw)_minmax(0,1fr)] items-start gap-3 md:grid-cols-2 md:items-center md:gap-10"
+      >
+        <div className="flex justify-center md:order-2 md:justify-center">
+          <PhoneMock
+            src="/app/how-screen.jpg?v=6"
+            alt="Nearby cars on the Praha Drive map"
+            objectPosition="center 36%"
+            card={
+              <div className="rounded-xl border border-white/15 bg-white/10 p-1.5 backdrop-blur-xl md:rounded-2xl md:p-2.5">
+                <div className="mb-0.5 text-[7px] uppercase tracking-[0.14em] text-primary md:mb-1 md:text-[9px] md:tracking-[0.18em]">
+                  Nearby
+                </div>
+                <div className="font-display text-[11px] leading-tight text-white md:text-[15px]">
+                  BMW i4 · 87%
+                </div>
+                <div className="mt-0.5 text-[8px] text-white/70 md:text-[10px]">2 min walk · Wenceslas Sq.</div>
+              </div>
+            }
+          />
+        </div>
+        <div className="min-w-0 md:order-1">
           <Eyebrow text="How it works" />
-          <h2 className="font-display text-[clamp(1.85rem,4.5vw,4rem)] leading-[1] mb-5 sm:mb-8">
+          <h2 className="font-display text-[clamp(1.45rem,6.5vw,4rem)] leading-[1.02] mb-3 sm:mb-8">
             Three taps.
             <br />
             <em className="italic text-foreground/70">You're driving.</em>
           </h2>
-          <div className="flex flex-col gap-3.5 sm:gap-5">
+          <div className="flex flex-col gap-2.5 sm:gap-5">
             {HOW.map((s) => (
-              <div key={s.n} className="flex gap-3 sm:gap-4">
-                <div className="font-display text-xl sm:text-2xl text-primary w-8 sm:w-10 shrink-0">
+              <div key={s.n} className="flex gap-2.5 sm:gap-4">
+                <div className="font-display text-lg sm:text-2xl text-primary w-7 sm:w-10 shrink-0">
                   {s.n}
                 </div>
-                <div>
-                  <h3 className="text-base sm:text-lg font-display mb-0.5 sm:mb-1">{s.title}</h3>
-                  <p className="text-foreground/70 leading-relaxed text-[13px] sm:text-sm max-w-md">
+                <div className="min-w-0">
+                  <h3 className="text-sm sm:text-lg font-display mb-0.5 sm:mb-1">{s.title}</h3>
+                  <p className="text-foreground/70 leading-snug text-[12px] sm:text-sm max-w-md">
                     {s.body}
                   </p>
                 </div>
               </div>
             ))}
           </div>
-        </div>
-        <div className="hidden md:flex justify-center">
-          <PhoneMock
-            src="/app/how-screen.jpg?v=6"
-            alt="Nearby cars on the Praha Drive map"
-            objectPosition="center 36%"
-            card={
-              <div className="rounded-2xl border border-white/15 bg-white/10 p-2.5 backdrop-blur-xl">
-                <div className="mb-1 text-[9px] uppercase tracking-[0.18em] text-primary">
-                  Nearby
-                </div>
-                <div className="font-display text-[15px] leading-tight text-white">
-                  BMW i4 · 87%
-                </div>
-                <div className="mt-0.5 text-[10px] text-white/70">2 min walk · Wenceslas Sq.</div>
-              </div>
-            }
-          />
         </div>
       </div>
     </SceneShell>
@@ -483,7 +487,7 @@ function ZonesScene() {
   const [active, setActive] = useState(PINS[0]);
   return (
     <SceneShell>
-      <div className="grid w-full min-w-0 items-center gap-3 overflow-x-hidden sm:gap-5 md:grid-cols-[1fr_0.9fr] md:gap-8">
+      <div id="zones" className="grid w-full min-w-0 items-center gap-3 overflow-x-hidden sm:gap-5 md:grid-cols-[1fr_0.9fr] md:gap-8">
         <div className="min-w-0 w-full">
           <Eyebrow text="Zones" />
           <h2 className="font-display text-[clamp(1.5rem,4.5vw,4rem)] leading-[1] mb-3 sm:mb-4 md:mb-6">
@@ -632,7 +636,7 @@ function PricingScene() {
   };
   return (
     <SceneShell>
-      <div className="max-w-3xl mx-auto w-full text-center">
+      <div id="pricing" className="max-w-3xl mx-auto w-full text-center">
         <Eyebrow text="Pricing" center />
         <h2 className="font-display text-[clamp(1.85rem,4.5vw,4rem)] leading-[1] mb-5 sm:mb-10">
           Pay by the minute.
@@ -735,7 +739,7 @@ function FaqScene() {
   const [open, setOpen] = useState<number | null>(0);
   return (
     <SceneShell>
-      <div className="max-w-3xl mx-auto w-full">
+      <div id="faq" className="max-w-3xl mx-auto w-full">
         <Eyebrow text="Questions" center />
         <h2 className="font-display text-[clamp(1.85rem,4.5vw,4rem)] text-center leading-[1] mb-5 sm:mb-10">
           Good to <em className="italic">know.</em>
@@ -781,51 +785,51 @@ function FaqScene() {
 function CtaScene() {
   return (
     <SceneShell>
-      <div className="grid w-full items-center gap-6 rounded-2xl sm:rounded-3xl border border-white/10 bg-background/92 p-5 sm:p-6 shadow-elegant backdrop-blur-xl md:grid-cols-2 md:gap-10 md:p-10">
-        <div>
-          <Eyebrow text="Get the app" />
-          <h2 className="font-display text-[clamp(1.85rem,4.5vw,4rem)] leading-[1] mb-3 sm:mb-5">
-            Your first ride is <em className="italic text-primary">free.</em>
-          </h2>
-          <p className="text-foreground/75 text-[15px] sm:text-base max-w-md mb-5 sm:mb-6 leading-relaxed">
-            Download, verify your license in 90 seconds, and we'll drop 200 Kč onto your account.
-          </p>
-          <div className="flex flex-wrap gap-2.5 sm:gap-3">
-            <button className="group inline-flex h-12 items-center gap-2.5 rounded-2xl bg-foreground px-5 text-background shadow-elegant transition hover:opacity-90 sm:h-[52px]">
-              <AppleLogo className="h-6 w-6 shrink-0 sm:h-7 sm:w-7" />
-              <div className="text-left leading-tight">
-                <div className="text-[10px] tracking-wide opacity-70">Download on the</div>
-                <div className="text-[15px] font-semibold sm:text-[16px]">App Store</div>
-              </div>
-            </button>
-            <button className="group inline-flex h-12 items-center gap-2.5 rounded-2xl border border-white/15 bg-white/[0.06] px-5 text-foreground backdrop-blur-md transition hover:bg-white/10 sm:h-[52px]">
-              <GooglePlayLogo className="h-6 w-6 shrink-0 sm:h-7 sm:w-7" />
-              <div className="text-left leading-tight">
-                <div className="text-[10px] tracking-wide text-foreground/70">Get it on</div>
-                <div className="text-[15px] font-semibold sm:text-[16px]">Google Play</div>
-              </div>
-            </button>
-          </div>
-        </div>
-        <div className="hidden md:flex justify-end">
+      <div className="grid w-full min-w-0 grid-cols-[minmax(112px,29vw)_minmax(0,1fr)] items-start gap-3 rounded-2xl border border-white/10 bg-background/92 p-4 shadow-elegant backdrop-blur-xl sm:rounded-3xl sm:p-6 md:grid-cols-2 md:items-center md:gap-10 md:p-10">
+        <div className="flex justify-center md:order-2 md:justify-end">
           <PhoneMock
             src="/app/cta-screen.jpg?v=6"
             alt="Reserved BMW i4 in the Praha Drive app"
             objectPosition="center 40%"
             card={
-              <div className="rounded-2xl border border-white/15 bg-white/10 p-2.5 backdrop-blur-xl">
-                <div className="mb-0.5 text-[9px] uppercase tracking-[0.18em] text-primary">
+              <div className="rounded-xl border border-white/15 bg-white/10 p-1.5 backdrop-blur-xl md:rounded-2xl md:p-2.5">
+                <div className="mb-0.5 text-[7px] uppercase tracking-[0.14em] text-primary md:text-[9px] md:tracking-[0.18em]">
                   Reserved
                 </div>
-                <div className="font-display text-[15px] leading-tight text-white">
+                <div className="font-display text-[11px] leading-tight text-white md:text-[15px]">
                   BMW i4 · 87%
                 </div>
-                <button className="mt-2 h-8 w-full rounded-full bg-primary text-xs font-medium text-primary-foreground transition hover:opacity-90">
+                <button className="mt-1.5 h-6 w-full rounded-full bg-primary text-[9px] font-medium text-primary-foreground transition hover:opacity-90 md:mt-2 md:h-8 md:text-xs">
                   Unlock
                 </button>
               </div>
             }
           />
+        </div>
+        <div className="min-w-0 md:order-1">
+          <Eyebrow text="Get the app" />
+          <h2 className="font-display text-[clamp(1.45rem,6.5vw,4rem)] leading-[1.02] mb-2 sm:mb-5">
+            Your first ride is <em className="italic text-primary">free.</em>
+          </h2>
+          <p className="text-foreground/75 text-[13px] sm:text-base max-w-md mb-3 sm:mb-6 leading-snug sm:leading-relaxed">
+            Download, verify your license in 90 seconds, and we'll drop 200 Kč onto your account.
+          </p>
+          <div className="flex flex-col gap-2 sm:flex-row sm:flex-wrap sm:gap-3">
+            <button className="group inline-flex h-10 items-center gap-2 rounded-xl bg-foreground px-3.5 text-background shadow-elegant transition hover:opacity-90 sm:h-[52px] sm:gap-2.5 sm:rounded-2xl sm:px-5">
+              <AppleLogo className="h-5 w-5 shrink-0 sm:h-7 sm:w-7" />
+              <div className="text-left leading-tight">
+                <div className="text-[9px] tracking-wide opacity-70 sm:text-[10px]">Download on the</div>
+                <div className="text-[13px] font-semibold sm:text-[16px]">App Store</div>
+              </div>
+            </button>
+            <button className="group inline-flex h-10 items-center gap-2 rounded-xl border border-white/15 bg-white/[0.06] px-3.5 text-foreground backdrop-blur-md transition hover:bg-white/10 sm:h-[52px] sm:gap-2.5 sm:rounded-2xl sm:px-5">
+              <GooglePlayLogo className="h-5 w-5 shrink-0 sm:h-7 sm:w-7" />
+              <div className="text-left leading-tight">
+                <div className="text-[9px] tracking-wide text-foreground/70 sm:text-[10px]">Get it on</div>
+                <div className="text-[13px] font-semibold sm:text-[16px]">Google Play</div>
+              </div>
+            </button>
+          </div>
         </div>
       </div>
     </SceneShell>

@@ -1,4 +1,5 @@
-import { Github, Linkedin, Zap } from "lucide-react";
+import { Github, Linkedin } from "lucide-react";
+import { Logo } from "./Logo";
 
 const AUTHOR_NAME = "Iusif Mamedov";
 const AUTHOR_ROLE = "Full Stack Developer";
@@ -10,9 +11,8 @@ export function Footer() {
     <footer className="relative border-t border-border bg-background px-5 py-10 sm:px-6 sm:py-16">
       <div className="max-w-7xl mx-auto grid grid-cols-2 md:grid-cols-4 gap-x-6 gap-y-8 md:gap-10">
         <div className="col-span-2 md:col-span-2">
-          <div className="flex items-center gap-2 mb-3 sm:mb-4">
-            <Zap className="w-5 h-5 text-primary" strokeWidth={2.5} />
-            <span className="font-display text-xl sm:text-2xl italic">Praha Drive</span>
+          <div className="mb-3 sm:mb-4">
+            <Logo />
           </div>
           <p className="text-foreground/60 max-w-sm text-[13px] sm:text-sm leading-relaxed">
             The premium car-sharing service for Prague. By the minute, anywhere in the inner ring.

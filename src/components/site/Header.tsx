@@ -2,18 +2,19 @@ import { useEffect, useState } from "react";
 import { AnimatePresence, motion } from "motion/react";
 import { Menu, Smartphone, X } from "lucide-react";
 import { Logo } from "./Logo";
+import { parseSectionHash, scrollToSection } from "@/lib/scrollSections";
 
 type NavLink = {
-  readonly href: string;
+  readonly id: string;
   readonly label: string;
 };
 
 const NAV_LINKS: readonly NavLink[] = [
-  { href: "#fleet", label: "Fleet" },
-  { href: "#how", label: "How it works" },
-  { href: "#zones", label: "Zones" },
-  { href: "#pricing", label: "Pricing" },
-  { href: "#faq", label: "FAQ" },
+  { id: "fleet", label: "Fleet" },
+  { id: "how", label: "How it works" },
+  { id: "zones", label: "Zones" },
+  { id: "pricing", label: "Pricing" },
+  { id: "faq", label: "FAQ" },
 ];
 
 const appButtonClass =
@@ -46,6 +47,19 @@ export function Header() {
 
   const closeMenu = () => setMenuOpen(false);
 
+  useEffect(() => {
+    const sectionId = parseSectionHash(window.location.hash);
+    if (!sectionId) return;
+    const timer = window.setTimeout(() => scrollToSection(sectionId, "auto"), 120);
+    return () => window.clearTimeout(timer);
+  }, []);
+
+  const handleNavClick = (sectionId: string) => {
+    scrollToSection(sectionId);
+    history.replaceState(null, "", `#${sectionId}`);
+    closeMenu();
+  };
+
   return (
     <>
       <header
@@ -60,7 +74,15 @@ export function Header() {
 
           <nav className="hidden items-center gap-8 text-sm text-foreground/70 md:flex">
             {NAV_LINKS.map((link) => (
-              <a key={link.href} href={link.href} className="transition-colors hover:text-primary">
+              <a
+                key={link.id}
+                href={`#${link.id}`}
+                onClick={(event) => {
+                  event.preventDefault();
+                  handleNavClick(link.id);
+                }}
+                className="transition-colors hover:text-primary"
+              >
                 {link.label}
               </a>
             ))}
@@ -154,9 +176,12 @@ export function Header() {
             <nav className="mt-6 flex flex-col">
               {NAV_LINKS.map((link, index) => (
                 <motion.a
-                  key={link.href}
-                  href={link.href}
-                  onClick={closeMenu}
+                  key={link.id}
+                  href={`#${link.id}`}
+                  onClick={(event) => {
+                    event.preventDefault();
+                    handleNavClick(link.id);
+                  }}
                   initial={{ opacity: 0, x: 18 }}
                   animate={{ opacity: 1, x: 0 }}
                   transition={{ delay: 0.08 + index * 0.05, duration: 0.32 }}
