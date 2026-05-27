@@ -10,7 +10,7 @@ export type FleetCar = {
 
 export const FLEET_CARS: FleetCar[] = [
   {
-    img: "/fleet/bmw-i4.jpg",
+    img: "/fleet/bmw-i4.jpg?v=1",
     name: "BMW i4 eDrive40",
     tag: "Electric · Touring",
     range: "490 km",
@@ -19,7 +19,7 @@ export const FLEET_CARS: FleetCar[] = [
     price: "8 Kč / min",
   },
   {
-    img: "/fleet/bmw-118i.jpg",
+    img: "/fleet/bmw-118i.jpg?v=1",
     name: "BMW 118i",
     tag: "Hatch · City",
     range: "620 km",
@@ -28,7 +28,7 @@ export const FLEET_CARS: FleetCar[] = [
     price: "5 Kč / min",
   },
   {
-    img: "/fleet/bmw-x1.jpg",
+    img: "/fleet/bmw-x1.jpg?v=1",
     name: "BMW X1 sDrive20i",
     tag: "Crossover · Family",
     range: "700 km",

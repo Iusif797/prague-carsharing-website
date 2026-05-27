@@ -1,6 +1,7 @@
 import { useEffect, useState } from "react";
 import { AnimatePresence, motion } from "motion/react";
 import { Menu, Smartphone, X } from "lucide-react";
+import { Logo } from "./Logo";
 
 type NavLink = {
   readonly href: string;
@@ -17,34 +18,6 @@ const NAV_LINKS: readonly NavLink[] = [
 
 const appButtonClass =
   "inline-flex items-center justify-center gap-2 rounded-full bg-primary font-semibold leading-none text-primary-foreground shadow-[0_0_0_1px_color-mix(in_oklab,var(--color-primary)_35%,transparent),0_10px_28px_-12px_color-mix(in_oklab,var(--color-primary)_70%,transparent)] transition-[transform,filter,box-shadow] duration-200 hover:brightness-105 active:scale-[0.98]";
-
-function Logo() {
-  return (
-    <a
-      href="#"
-      aria-label="Praha Drive"
-      className="group inline-flex shrink-0 items-center gap-2.5 text-foreground"
-    >
-      <span className="relative inline-flex h-9 w-9 shrink-0 items-center justify-center overflow-hidden rounded-[11px] bg-gradient-to-br from-primary via-primary to-[oklch(0.74_0.18_72)] shadow-[0_10px_28px_-12px_color-mix(in_oklab,var(--color-primary)_70%,transparent)] transition-transform duration-300 group-hover:-translate-y-0.5">
-        <svg viewBox="0 0 24 24" aria-hidden="true" className="h-[18px] w-[18px]">
-          <path
-            d="M14.2 2.3 5.6 13.4a.6.6 0 0 0 .48.97h4.4l-1.4 6.96a.5.5 0 0 0 .9.38l8.42-10.93a.6.6 0 0 0-.48-.97h-4.32l1.4-6.92a.5.5 0 0 0-.9-.39Z"
-            fill="oklch(0.18 0.02 80)"
-          />
-        </svg>
-        <span
-          aria-hidden="true"
-          className="pointer-events-none absolute inset-0 rounded-[11px] ring-1 ring-inset ring-white/25"
-        />
-      </span>
-      <span className="whitespace-nowrap font-display text-[1.05rem] leading-none tracking-tight sm:text-[1.2rem]">
-        <span className="italic text-foreground">Praha</span>
-        <span className="text-primary">.</span>
-        <span className="text-foreground">Drive</span>
-      </span>
-    </a>
-  );
-}
 
 export function Header() {
   const [scrolled, setScrolled] = useState(false);
@@ -76,7 +49,7 @@ export function Header() {
   return (
     <>
       <header
-        className={`fixed inset-x-0 top-0 z-50 transition-all duration-500 ${
+        className={`fixed inset-x-0 top-0 z-[60] transition-all duration-500 ${
           scrolled || menuOpen
             ? "border-b border-border bg-background/70 backdrop-blur-xl"
             : "bg-transparent"
@@ -166,7 +139,17 @@ export function Header() {
               aria-hidden="true"
               className="pointer-events-none absolute inset-x-0 top-0 h-px bg-gradient-to-r from-transparent via-primary/40 to-transparent"
             />
-            <div className="text-[10px] uppercase tracking-[0.4em] text-primary/85">Menu</div>
+            <div className="flex items-center justify-between gap-4">
+              <div className="text-[10px] uppercase tracking-[0.4em] text-primary/85">Menu</div>
+              <button
+                type="button"
+                onClick={closeMenu}
+                aria-label="Close menu"
+                className="inline-flex h-10 w-10 items-center justify-center rounded-full border border-white/10 bg-white/[0.04] text-foreground/85 backdrop-blur-md transition hover:border-primary/50 hover:text-primary"
+              >
+                <X className="h-5 w-5" />
+              </button>
+            </div>
 
             <nav className="mt-6 flex flex-col">
               {NAV_LINKS.map((link, index) => (
