@@ -205,7 +205,12 @@ export function ScrollExperience() {
   const mobileObjectPosition = useMotionTemplate`${mobilePanX}% center`;
 
   return (
-    <section ref={containerRef} data-scroll-experience className="relative" style={{ height: `${SCENES * 100}vh` }}>
+    <section
+      ref={containerRef}
+      data-scroll-experience
+      className="relative"
+      style={{ height: `${SCENES * 100}vh` }}
+    >
       <div className="sticky top-0 h-svh w-full overflow-hidden bg-background">
         <motion.video
           ref={videoRef}
@@ -323,7 +328,7 @@ function Scene({
   return (
     <motion.div
       style={{ opacity, y, pointerEvents }}
-      className="absolute inset-0 flex items-center overflow-hidden"
+      className="scene-scroll absolute inset-0 flex"
     >
       {children}
     </motion.div>
@@ -355,11 +360,7 @@ function Dot({ index, progress }: { index: number; progress: MotionValue<number>
 /* ---------- scenes ---------- */
 
 function SceneShell({ children }: { children: ReactNode }) {
-  return (
-    <div className="mx-auto flex h-full w-full max-w-7xl items-center px-5 pt-[max(4.5rem,env(safe-area-inset-top))] pb-[max(3rem,env(safe-area-inset-bottom))] sm:px-6 md:px-10 md:py-0">
-      {children}
-    </div>
-  );
+  return <div className="scene-shell">{children}</div>;
 }
 
 function HeroScene() {
@@ -450,7 +451,9 @@ function HowScene() {
                 <div className="font-display text-[11px] leading-tight text-white md:text-[15px]">
                   BMW i4 · 87%
                 </div>
-                <div className="mt-0.5 text-[8px] text-white/70 md:text-[10px]">2 min walk · Wenceslas Sq.</div>
+                <div className="mt-0.5 text-[8px] text-white/70 md:text-[10px]">
+                  2 min walk · Wenceslas Sq.
+                </div>
               </div>
             }
           />
@@ -487,7 +490,10 @@ function ZonesScene() {
   const [active, setActive] = useState(PINS[0]);
   return (
     <SceneShell>
-      <div id="zones" className="grid w-full min-w-0 items-center gap-3 overflow-x-hidden sm:gap-5 md:grid-cols-[1fr_0.9fr] md:gap-8">
+      <div
+        id="zones"
+        className="grid w-full min-w-0 items-center gap-3 overflow-x-hidden sm:gap-5 md:grid-cols-[1fr_0.9fr] md:gap-8"
+      >
         <div className="min-w-0 w-full">
           <Eyebrow text="Zones" />
           <h2 className="font-display text-[clamp(1.5rem,4.5vw,4rem)] leading-[1] mb-3 sm:mb-4 md:mb-6">
@@ -497,75 +503,81 @@ function ZonesScene() {
           </h2>
           <div className="mx-auto w-full max-w-[16.5rem] sm:max-w-md md:max-w-none">
             <div className="relative aspect-square w-full overflow-hidden rounded-2xl glass sm:aspect-[4/3] md:aspect-square">
-            <svg
-              viewBox="0 0 100 100"
-              preserveAspectRatio="xMidYMid meet"
-              className="absolute inset-0 block h-full w-full"
-            >
-              <defs>
-                <radialGradient id="rg" cx="50%" cy="50%" r="50%">
-                  <stop offset="0%" stopColor="oklch(0.86 0.17 90)" stopOpacity="0.15" />
-                  <stop offset="100%" stopColor="oklch(0.86 0.17 90)" stopOpacity="0" />
-                </radialGradient>
-              </defs>
-              <rect width="100" height="100" fill="url(#rg)" />
-              <path
-                d="M 40 5 Q 45 25 35 40 Q 25 55 40 70 Q 50 80 45 100"
-                stroke="oklch(0.86 0.17 90 / 0.35)"
-                strokeWidth="3"
-                fill="none"
-                strokeLinecap="round"
-              />
-              <circle
-                cx="50"
-                cy="50"
-                r="38"
-                stroke="oklch(1 0 0 / 0.1)"
-                strokeDasharray="1 2"
-                fill="none"
-              />
-              {PINS.map((p) => (
-                <g key={p.id} onClick={() => setActive(p)} className="cursor-pointer">
-                  <circle
-                    cx={p.x}
-                    cy={p.y}
-                    r={active.id === p.id ? 2.6 : 1.6}
-                    fill="oklch(0.86 0.17 90)"
-                  />
-                  {active.id === p.id && (
-                    <circle cx={p.x} cy={p.y} r="5" fill="none" stroke="oklch(0.86 0.17 90 / 0.5)">
-                      <animate
-                        attributeName="r"
-                        from="2.6"
-                        to="6"
-                        dur="1.8s"
-                        repeatCount="indefinite"
-                      />
-                      <animate
-                        attributeName="opacity"
-                        from="1"
-                        to="0"
-                        dur="1.8s"
-                        repeatCount="indefinite"
-                      />
-                    </circle>
-                  )}
-                </g>
-              ))}
-            </svg>
-            <div className="absolute inset-x-0 bottom-0 flex items-end justify-between gap-3 bg-gradient-to-t from-black/80 via-black/40 to-transparent p-3 md:hidden">
-              <div className="min-w-0">
-                <div className="text-[9px] uppercase tracking-[0.22em] text-primary/90">
-                  Selected
+              <svg
+                viewBox="0 0 100 100"
+                preserveAspectRatio="xMidYMid meet"
+                className="absolute inset-0 block h-full w-full"
+              >
+                <defs>
+                  <radialGradient id="rg" cx="50%" cy="50%" r="50%">
+                    <stop offset="0%" stopColor="oklch(0.86 0.17 90)" stopOpacity="0.15" />
+                    <stop offset="100%" stopColor="oklch(0.86 0.17 90)" stopOpacity="0" />
+                  </radialGradient>
+                </defs>
+                <rect width="100" height="100" fill="url(#rg)" />
+                <path
+                  d="M 40 5 Q 45 25 35 40 Q 25 55 40 70 Q 50 80 45 100"
+                  stroke="oklch(0.86 0.17 90 / 0.35)"
+                  strokeWidth="3"
+                  fill="none"
+                  strokeLinecap="round"
+                />
+                <circle
+                  cx="50"
+                  cy="50"
+                  r="38"
+                  stroke="oklch(1 0 0 / 0.1)"
+                  strokeDasharray="1 2"
+                  fill="none"
+                />
+                {PINS.map((p) => (
+                  <g key={p.id} onClick={() => setActive(p)} className="cursor-pointer">
+                    <circle
+                      cx={p.x}
+                      cy={p.y}
+                      r={active.id === p.id ? 2.6 : 1.6}
+                      fill="oklch(0.86 0.17 90)"
+                    />
+                    {active.id === p.id && (
+                      <circle
+                        cx={p.x}
+                        cy={p.y}
+                        r="5"
+                        fill="none"
+                        stroke="oklch(0.86 0.17 90 / 0.5)"
+                      >
+                        <animate
+                          attributeName="r"
+                          from="2.6"
+                          to="6"
+                          dur="1.8s"
+                          repeatCount="indefinite"
+                        />
+                        <animate
+                          attributeName="opacity"
+                          from="1"
+                          to="0"
+                          dur="1.8s"
+                          repeatCount="indefinite"
+                        />
+                      </circle>
+                    )}
+                  </g>
+                ))}
+              </svg>
+              <div className="absolute inset-x-0 bottom-0 flex items-end justify-between gap-3 bg-gradient-to-t from-black/80 via-black/40 to-transparent p-3 md:hidden">
+                <div className="min-w-0">
+                  <div className="text-[9px] uppercase tracking-[0.22em] text-primary/90">
+                    Selected
+                  </div>
+                  <div className="truncate font-display text-lg leading-tight text-white">
+                    {active.name}
+                  </div>
                 </div>
-                <div className="truncate font-display text-lg leading-tight text-white">
-                  {active.name}
+                <div className="shrink-0 rounded-full bg-primary/95 px-2.5 py-1 text-[11px] font-semibold text-primary-foreground tabular-nums">
+                  {active.cars} cars
                 </div>
               </div>
-              <div className="shrink-0 rounded-full bg-primary/95 px-2.5 py-1 text-[11px] font-semibold text-primary-foreground tabular-nums">
-                {active.cars} cars
-              </div>
-            </div>
             </div>
           </div>
         </div>
@@ -818,14 +830,18 @@ function CtaScene() {
             <button className="group inline-flex h-10 items-center gap-2 rounded-xl bg-foreground px-3.5 text-background shadow-elegant transition hover:opacity-90 sm:h-[52px] sm:gap-2.5 sm:rounded-2xl sm:px-5">
               <AppleLogo className="h-5 w-5 shrink-0 sm:h-7 sm:w-7" />
               <div className="text-left leading-tight">
-                <div className="text-[9px] tracking-wide opacity-70 sm:text-[10px]">Download on the</div>
+                <div className="text-[9px] tracking-wide opacity-70 sm:text-[10px]">
+                  Download on the
+                </div>
                 <div className="text-[13px] font-semibold sm:text-[16px]">App Store</div>
               </div>
             </button>
             <button className="group inline-flex h-10 items-center gap-2 rounded-xl border border-white/15 bg-white/[0.06] px-3.5 text-foreground backdrop-blur-md transition hover:bg-white/10 sm:h-[52px] sm:gap-2.5 sm:rounded-2xl sm:px-5">
               <GooglePlayLogo className="h-5 w-5 shrink-0 sm:h-7 sm:w-7" />
               <div className="text-left leading-tight">
-                <div className="text-[9px] tracking-wide text-foreground/70 sm:text-[10px]">Get it on</div>
+                <div className="text-[9px] tracking-wide text-foreground/70 sm:text-[10px]">
+                  Get it on
+                </div>
                 <div className="text-[13px] font-semibold sm:text-[16px]">Google Play</div>
               </div>
             </button>
@@ -887,10 +903,8 @@ function GooglePlayLogo({ className }: { className?: string }) {
 
 function Eyebrow({ text, center }: { text: string; center?: boolean }) {
   return (
-    <div
-      className={`text-[10px] uppercase tracking-[0.3em] text-primary mb-3 ${center ? "text-center" : ""}`}
-    >
-      {text}
+    <div className={center ? "flex justify-center" : ""}>
+      <span className="scene-eyebrow">{text}</span>
     </div>
   );
 }

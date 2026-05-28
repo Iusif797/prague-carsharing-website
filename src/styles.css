@@ -62,6 +62,13 @@
 
 :root {
   --radius: 0.5rem;
+  --scene-pad-x: 1.25rem;
+  --scene-pad-top: max(4.75rem, env(safe-area-inset-top));
+  --scene-pad-bottom: max(3rem, env(safe-area-inset-bottom));
+  --scene-title: clamp(1.85rem, 6.5vw, 4rem);
+  --scene-title-hero: clamp(2.4rem, 7vw, 6.5rem);
+  --scene-eyebrow: 0.625rem;
+  --scene-eyebrow-tracking: 0.3em;
   --background: oklch(0.16 0.008 60);
   --foreground: oklch(0.97 0.005 80);
   --card: oklch(0.20 0.010 60);
@@ -189,6 +196,93 @@
   }
   .shadow-elegant {
     box-shadow: 0 40px 80px -40px rgba(0, 0, 0, 0.6);
+  }
+
+  .scene-scroll {
+    overflow-y: auto;
+    overflow-x: hidden;
+    overscroll-behavior: contain;
+    -webkit-overflow-scrolling: touch;
+    scrollbar-width: none;
+  }
+  .scene-scroll::-webkit-scrollbar {
+    display: none;
+  }
+  @media (min-width: 768px) {
+    .scene-scroll {
+      overflow: hidden;
+    }
+  }
+
+  .scene-shell {
+    position: relative;
+    margin-inline: auto;
+    display: flex;
+    width: 100%;
+    max-width: 80rem;
+    min-height: 100%;
+    flex-direction: column;
+    justify-content: center;
+    padding-inline: var(--scene-pad-x);
+    padding-top: var(--scene-pad-top);
+    padding-bottom: var(--scene-pad-bottom);
+  }
+  @media (min-width: 640px) {
+    .scene-shell {
+      padding-inline: 1.5rem;
+    }
+  }
+  @media (min-width: 768px) {
+    .scene-shell {
+      flex-direction: row;
+      align-items: center;
+      padding-inline: 2.5rem;
+      padding-block: 0;
+    }
+  }
+
+  .scene-eyebrow {
+    display: inline-flex;
+    align-items: center;
+    gap: 0.375rem;
+    margin-bottom: 0.875rem;
+    font-family: var(--font-body);
+    font-size: var(--scene-eyebrow);
+    line-height: 1;
+    letter-spacing: var(--scene-eyebrow-tracking);
+    text-transform: uppercase;
+    color: var(--color-primary);
+  }
+  .scene-eyebrow::before {
+    content: "";
+    display: inline-block;
+    width: 0.375rem;
+    height: 1px;
+    background-color: var(--color-primary);
+    opacity: 0.7;
+  }
+
+  .scene-title {
+    font-family: var(--font-display);
+    font-size: var(--scene-title);
+    line-height: 1.02;
+    letter-spacing: -0.02em;
+    font-weight: 500;
+    margin: 0;
+  }
+  .scene-title-hero {
+    font-family: var(--font-display);
+    font-size: var(--scene-title-hero);
+    line-height: 0.95;
+    letter-spacing: -0.02em;
+    font-weight: 500;
+    margin: 0;
+  }
+}
+
+@supports (font-size-adjust: ex-height 0.52) {
+  body {
+    font-size-adjust: ex-height 0.52;
   }
 }
 
